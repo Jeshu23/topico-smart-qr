@@ -1,5 +1,7 @@
 # TÓPICO SMART QR
 
+![Panel principal de TÓPICO SMART QR](docs/dashboard.png)
+
 Sistema web completo para la gestión del inventario de medicamentos de un tópico institucional.
 Implementado con **Node.js + Express + PostgreSQL**, interfaz en español con Bootstrap 5, Chart.js,
 SweetAlert2, QR reales por lote y escaneo con cámara.
