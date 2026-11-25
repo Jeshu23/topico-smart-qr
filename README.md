@@ -1,5 +1,7 @@
 # TÓPICO SMART QR
 
+**Presentación pública (abre desde cualquier dispositivo):** https://jeshu23.github.io/topico-smart-qr/
+
 ![Panel principal de TÓPICO SMART QR](docs/dashboard.png)
 
 Sistema web completo para la gestión del inventario de medicamentos de un tópico institucional.
