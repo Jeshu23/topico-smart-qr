@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="BloomCare — Gestion inteligente de inventario de medicamentos">
+  <title>BloomCare — Salud e Inventario</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/fa.css" onerror="document.querySelectorAll('[class*=\"fa-\"]').forEach((e)=>e.classList.replace('fa-solid','fa-x').replace('fa-','fa-x'))">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar__brand">
+        <svg class="sidebar__logo" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="32" cy="32" r="27" fill="#EAF5FC" stroke="#78A9D4" stroke-width="2"/>
+          <circle cx="32" cy="16" r="7" fill="#78A9D4"/>
+          <circle cx="43.6" cy="35" r="7" fill="#A8C4DD"/>
+          <circle cx="32" cy="48" r="7" fill="#78A9D4"/>
+          <circle cx="20.4" cy="35" r="7" fill="#A8C4DD"/>
+          <circle cx="32" cy="32" r="6" fill="#3D6791"/>
+        </svg>
+        <div>
+          <div class="sidebar__name">BloomCare</div>
+          <div class="sidebar__tag">Salud · Inventario</div>
+        </div>
+      </div>
+      <nav class="sidebar__nav" id="menu-navegacion"></nav>
+      <div class="sidebar__footer">© BloomCare · Gestion inteligente</div>
+    </aside>
+    <div class="sidebar__scrim" id="scrim"></div>
+
+    <div class="main">
+      <header class="topbar no-print">
+        <button class="icon-btn" id="abrir-menu" type="button" aria-label="Abrir menu"><i class="fa-solid fa-bars"></i></button>
+        <div>
+          <h1 class="topbar__title" id="topbar-titulo">BloomCare</h1>
+          <p class="topbar__subtitle" id="topbar-subtitulo">Panel principal</p>
+        </div>
+        <div class="topbar__actions">
+          <span class="topbar__date" id="topbar-fecha"></span>
+          <button class="icon-btn" id="abrir-voz" type="button" title="Asistente de voz" aria-label="Asistente de voz"><i class="fa-solid fa-microphone"></i></button>
+          <button class="icon-btn" id="abrir-qr" type="button" title="Escanear medicamento" aria-label="Escanear medicamento"><i class="fa-solid fa-qrcode"></i></button>
+          <button class="icon-btn" id="abrir-alertas-top" type="button" title="Alertas" aria-label="Alertas"><i class="fa-solid fa-triangle-exclamation"></i><span class="alert-dot" id="contador-alertas"></span></button>
+          <button class="icon-btn" id="salir" type="button" title="Cerrar sesion" aria-label="Cerrar sesion"><i class="fa-solid fa-right-from-bracket"></i></button>
+        </div>
+      </header>
+      <main class="content"><div id="vista-contenido"></div></main>
+    </div>
+  </div>
+
+  <div class="toast-stack" id="toast-stack"></div>
+
+  <div class="voice-fab"><button class="btn btn--primary" id="fab-voz" type="button"><i class="fa-solid fa-microphone"></i> Asistente de voz</button></div>
+
+  <div id="bloom-qr-region" class="scanner" style="display:none"></div>
+
+  <div id="qr-panel" class="card" style="display:none;max-width:760px;margin:0 auto 30px">
+    <div class="card__header">
+      <div>
+        <h3 class="card__title">Generacion de codigo QR</h3>
+        <p class="card__subtitle">Codigo unico por medicamento</p>
+      </div>
+      <div class="card__actions"><button class="btn btn--soft btn--sm" id="cerrar-qr-panel" type="button"><i class="fa-solid fa-xmark"></i> Cerrar</button></div>
+    </div>
+    <div class="qr-panel">
+      <div class="qr-frame"><img id="qr-imagen" src="" alt="Codigo QR del medicamento"></div>
+      <div class="stack">
+        <div class="field">
+          <label class="field__label" for="qr-med">Medicamento</label>
+          <select class="select" id="qr-med"></select>
+        </div>
+        <div class="row">
+          <button class="btn btn--primary" id="qr-generar" type="button"><i class="fa-solid fa-qrcode"></i> Generar QR</button>
+          <button class="btn btn--soft" id="qr-descargar" type="button" disabled><i class="fa-solid fa-download"></i> Descargar PNG</button>
+          <button class="btn btn--ghost" id="qr-escanear" type="button"><i class="fa-solid fa-up-right-from-square"></i> Escanear</button>
+        </div>
+        <p class="muted small mb-0">El codigo QR se genera con la libreria QRCode y permite consultar la informacion del medicamento escaneando la imagen.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="voice-panel card" id="voice-panel" style="display:none">
+    <div class="card__header">
+      <div>
+        <h3 class="card__title">Asistente de voz</h3>
+        <p class="card__subtitle">Consulta el inventario con lenguaje natural</p>
+      </div>
+      <div class="card__actions"><button class="icon-btn" id="cerrar-voz" type="button" aria-label="Cerrar asistente"><i class="fa-solid fa-xmark"></i></button></div>
+    </div>
+    <div class="voice-panel__log" id="voice-log"></div>
+    <div class="form-actions">
+      <button class="btn btn--primary" id="activar-voz" type="button"><i class="fa-solid fa-microphone"></i> Escuchar</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/qr.js"></script>
+  <script src="js/voz.js"></script>
+  <script src="js/views.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

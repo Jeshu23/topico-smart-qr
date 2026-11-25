@@ -1,0 +1,38 @@
+{
+  "name": "topico-smart-qr",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sistema web de gestion de inventario de medicamentos con codigos QR para topicos institucionales",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "db:init": "node database/init.js",
+    "test": "node tests/smoke.test.js",
+    "test:browser": "node tests/browser.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "chart.js": "^4.4.7",
+    "dotenv": "^16.4.5",
+    "exceljs": "^4.4.0",
+    "express": "^4.21.2",
+    "express-validator": "^7.2.0",
+    "helmet": "^8.0.0",
+    "html5-qrcode": "^2.3.8",
+    "jsonwebtoken": "^9.0.2",
+    "pdfkit": "^0.15.2",
+    "pg": "^8.13.1",
+    "qrcode": "^1.5.4",
+    "sweetalert2": "^11.15.3"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^24.9.0"
+  }
+}

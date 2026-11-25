@@ -1,0 +1,136 @@
+/* ==========================================================================
+   TÓPICO SMART QR — Ajustes visuales sobre el sistema de diseño existente
+   ========================================================================== */
+
+/* Neutralizar utilidades de Bootstrap que se solapan con el diseño propio */
+.row { margin: 0; }
+.card { display: block; }
+.btn:focus, .btn:focus-visible { box-shadow: var(--ring); }
+.badge { font-size: 11.5px; padding: 5px 10px; border-radius: 999px; font-weight: 650; display: inline-flex; align-items: center; gap: 6px; }
+.table > :not(caption) > * > * { box-shadow: none; }
+.modal { display: block; }
+.modal-overlay { z-index: 1500; background: rgba(14, 42, 71, 0.55); backdrop-filter: blur(3px); }
+.toast-stack { z-index: 1600; top: 78px; }
+.icon-btn i, .btn i { font-size: 15px; line-height: 1; }
+
+/* ------------------------------- Login ---------------------------------- */
+.login-screen {
+  min-height: 100vh; display: grid; grid-template-columns: minmax(380px, 520px) 1fr;
+  background: var(--background);
+}
+.login-card {
+  background: #fff; display: flex; flex-direction: column; justify-content: center;
+  padding: 40px clamp(28px, 7vw, 80px); box-shadow: 12px 0 40px rgba(18, 60, 94, 0.08); z-index: 2;
+}
+.login-card__brand { display: flex; align-items: center; gap: 14px; margin-bottom: 42px; }
+.login-card__brand h2 { font-size: 19px; letter-spacing: 0.4px; color: var(--blue-900); }
+.login-card__brand p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.login-card__body { width: 100%; max-width: 390px; }
+.login-card__body h3 { font-size: 25px; margin-bottom: 6px; }
+.brand-icon {
+  width: 48px; height: 48px; border-radius: 15px; display: grid; place-items: center; font-size: 24px;
+  color: #fff; background: linear-gradient(135deg, var(--blue-primary), var(--blue-800));
+  box-shadow: 0 8px 20px rgba(95, 147, 198, 0.35);
+}
+.brand-icon--sm { width: 40px; height: 40px; font-size: 20px; border-radius: 12px; }
+.login-card__hint {
+  margin-top: 22px; padding: 12px 14px; border-radius: 12px; background: var(--blue-050);
+  color: var(--muted); font-size: 12.5px; display: flex; align-items: center; gap: 8px;
+}
+.login-side {
+  position: relative; overflow: hidden; display: grid; place-items: center;
+  background: linear-gradient(140deg, #0e2a47 0%, #17507e 55%, #78a9d4 140%); color: #fff; padding: 40px;
+}
+.login-side::before, .login-side::after {
+  content: ""; position: absolute; border-radius: 50%; background: rgba(255,255,255,0.07);
+}
+.login-side::before { width: 460px; height: 460px; right: -120px; top: -160px; }
+.login-side::after { width: 320px; height: 320px; left: -100px; bottom: -140px; }
+.login-side__content { position: relative; z-index: 1; max-width: 520px; }
+.login-side__content > i { font-size: 62px; opacity: 0.85; }
+.login-side__content h2 { color: #fff; font-size: clamp(26px, 3vw, 40px); margin: 22px 0 12px; }
+.login-side__content p { color: rgba(255,255,255,0.82); font-size: 16px; max-width: 440px; }
+.login-side__features { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+.login-side__features span {
+  background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.24);
+  padding: 9px 14px; border-radius: 999px; font-size: 13px; display: inline-flex; align-items: center; gap: 8px;
+}
+@media (max-width: 860px) {
+  .login-screen { grid-template-columns: 1fr; }
+  .login-side { display: none; }
+  .login-card { min-height: 100vh; box-shadow: none; }
+  .login-card__brand { margin-bottom: 28px; }
+}
+
+/* --------------------------- Elementos comunes -------------------------- */
+.section-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.kv { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+.kv__item { background: var(--blue-050); border: 1px solid var(--line-soft); border-radius: 12px; padding: 12px 14px; }
+.kv__label { font-size: 11.5px; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); font-weight: 650; }
+.kv__value { font-size: 14px; font-weight: 650; margin-top: 4px; word-break: break-word; }
+.kv--single { grid-template-columns: 1fr; }
+.clickable { cursor: pointer; }
+.center { text-align: center; }
+.divider { height: 1px; background: var(--line-soft); margin: 16px 0; }
+.help-box {
+  background: var(--blue-050); border: 1px solid var(--line-soft); border-left: 3px solid var(--blue-primary);
+  border-radius: 10px; padding: 12px 14px; font-size: 12.5px; color: var(--muted);
+}
+.help-box strong { color: var(--blue-800); }
+.qr-big { width: 220px; height: 220px; image-rendering: crisp-edges; }
+.qr-card { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.qr-card img { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 10px; }
+.alert-dot {
+  position: absolute; top: 3px; right: 3px; min-width: 17px; height: 17px; border-radius: 999px;
+  background: #cf6a5e; color: #fff; font-size: 10px; font-weight: 700; display: grid; place-items: center; padding: 0 4px;
+}
+.icon-btn { position: relative; }
+.spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.45); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ------------------------------ Escáner --------------------------------- */
+#scanner-root .scanner { max-width: 640px; margin: 0 auto; }
+#qr-reader video { width: 100% !important; }
+#qr-reader__scan_region img { display: none; }
+.scanner-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 14px; }
+
+/* --------------------------- Vista pública QR --------------------------- */
+#vista-publica { min-height: 100vh; display: grid; place-items: center; padding: 24px; background: var(--background); }
+.public-card { max-width: 720px; width: 100%; background: #fff; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); overflow: hidden; }
+.public-card__head { padding: 26px; color: #fff; background: linear-gradient(120deg, var(--blue-800), var(--blue-500)); }
+.public-card__head h2 { color: #fff; font-size: 22px; }
+.public-card__body { padding: 26px; }
+.public-card__foot { padding: 16px 26px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+/* ------------------------------- Impresión ------------------------------ */
+@media print {
+  body { background: #fff !important; }
+  .sidebar, .topbar, .no-print, #toast-stack, #modal-root > :not(.printable), .btn { display: none !important; }
+  .app { display: block; }
+  .content { padding: 0; max-width: none; }
+  .print-sheet { text-align: center; padding: 30px; }
+  .print-sheet img { width: 300px; height: 300px; }
+  .print-sheet h2 { margin-top: 16px; }
+}
+
+/* --------------------------- Ajustes de diseño -------------------------- */
+.stats-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+@media (max-width: 1200px) { .stats-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 760px) {
+  .stats-5, .grid--stats, .grid--2, .grid--3, .grid--dashboard { grid-template-columns: 1fr; }
+  .sidebar { position: fixed; z-index: 1000; transform: translateX(-100%); transition: transform .25s var(--ease); }
+  .sidebar.abierto { transform: translateX(0); }
+  .sidebar__scrim.visible { display: block; position: fixed; inset: 0; z-index: 999; background: rgba(14,42,71,.5); }
+  .app { grid-template-columns: 1fr; }
+  .topbar { padding: 0 14px; gap: 8px; }
+  .topbar__date { display: none; }
+  .content { padding: 16px; }
+  .toolbar .input, .toolbar .select { min-width: 150px; }
+}
+.reporte-activo { border-color: var(--blue-primary); box-shadow: 0 6px 18px rgba(95,147,198,.18); }
+
+/* ------------------------------ Animaciones ----------------------------- */
+.fade-in { animation: fadeIn .25s var(--ease); }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); display: inline-block; box-shadow: 0 0 0 0 rgba(47,158,125,.6); animation: pulse 2s infinite; }
+@keyframes pulse { 70% { box-shadow: 0 0 0 8px rgba(47,158,125,0); } 100% { box-shadow: 0 0 0 0 rgba(47,158,125,0); } }

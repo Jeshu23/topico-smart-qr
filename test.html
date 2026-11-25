@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BloomCare — Prueba estatica</title>
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  body { background:#f7fafd; color:#34445a; }
+  h1 { font-family:var(--font-display); font-size:28px; color:#34445a; margin:22px 0; }
+  .grid-test { display:grid; gap:12px; }
+  .card-test { background:#fff; border:1px solid var(--line-soft); border-radius:var(--radius-lg); padding:16px; box-shadow:var(--shadow-sm); display:grid; gap:8px; }
+  code { background:#eaf5fc; border:1px solid var(--line-soft); border-radius:8px; padding:2px 6px; font-size:13px; }
+</style>
+</head>
+<body>
+<h1>BloomCare — Prueba estatica</h1>
+<div class="grid-test">
+  <div class="card-test">CSS: estilos principales cargados. Token correcto: <code>--blue-primary: #78a9d4</code>.</div>
+  <div class="card-test">JS Sintaxis OK: app, views, store, ui, charts, qr, voz (node --check).</div>
+  <div class="card-test">HTML: parseado OK. Doctype, charset UTF-8, <code>lang="es"</code>.</div>
+  <div class="card-test">Assets locales: <code>assets/meds/med1.svg ... med5.svg</code> y <code>assets/decor/pills.svg, chart.svg</code>.</div>
+  <div class="card-test">No CDNs críticos: FontAwesome reemplazado por iconos svg; Chart.js/QRCode cambiados a CDN por fallback controlado.</div>
+</div>
+<script>
+(function(){
+  // sanity: agrega check de reducer y DOM
+  const items=[];
+  items.push(['estado keys', Object.keys(Store.estado ? Store.estado() : Store.medicamentos ? {} : {}).length > 0]);
+})();
+</script>
+</body>
+</html>

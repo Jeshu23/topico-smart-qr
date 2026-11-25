@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="TÓPICO SMART QR — Gestión inteligente del inventario de medicamentos">
+  <title>TÓPICO SMART QR — Inventario farmacéutico</title>
+  <link rel="stylesheet" href="/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="/vendor/bootstrap-icons.css">
+  <link rel="stylesheet" href="/vendor/sweetalert2.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <!-- ============================ LOGIN ============================ -->
+  <div id="login-screen" class="login-screen">
+    <div class="login-card">
+      <div class="login-card__brand">
+        <div class="brand-icon"><i class="bi bi-qr-code"></i></div>
+        <div>
+          <h2>TÓPICO SMART QR</h2>
+          <p>Gestión inteligente de medicamentos</p>
+        </div>
+      </div>
+      <div class="login-card__body">
+        <h3>Bienvenido al sistema</h3>
+        <p class="text-muted mb-4">Ingrese sus credenciales institucionales para continuar.</p>
+        <form id="form-login" autocomplete="on">
+          <div class="field mb-3">
+            <label class="field__label" for="login-usuario"><i class="bi bi-person-badge"></i> Usuario</label>
+            <input class="input" id="login-usuario" name="username" type="text" placeholder="Ej. admin" required autocomplete="username" autofocus>
+          </div>
+          <div class="field mb-4">
+            <label class="field__label" for="login-password"><i class="bi bi-lock"></i> Contraseña</label>
+            <input class="input" id="login-password" name="password" type="password" placeholder="••••••••" required autocomplete="current-password">
+          </div>
+          <button class="btn btn--primary btn--block" type="submit"><i class="bi bi-box-arrow-in-right"></i> Iniciar sesión</button>
+        </form>
+        <div class="login-card__hint">
+          <i class="bi bi-shield-lock"></i> Acceso restringido al personal del tópico.
+        </div>
+      </div>
+    </div>
+    <div class="login-side">
+      <div class="login-side__content">
+        <i class="bi bi-heart-pulse"></i>
+        <h2>Control total de su farmacia institucional</h2>
+        <p>Lotes, vencimientos, movimientos y alertas inteligentes en un solo lugar.</p>
+        <div class="login-side__features">
+          <span><i class="bi bi-qr-code-scan"></i> Trazabilidad QR</span>
+          <span><i class="bi bi-calendar2-x"></i> Control FEFO</span>
+          <span><i class="bi bi-exclamation-triangle"></i> Alertas automáticas</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================ SHELL ============================ -->
+  <div id="app-shell" class="app" style="display:none">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar__brand">
+        <div class="brand-icon brand-icon--sm"><i class="bi bi-qr-code"></i></div>
+        <div>
+          <div class="sidebar__name">TÓPICO SMART QR</div>
+          <div class="sidebar__tag">Inventario farmacéutico</div>
+        </div>
+      </div>
+      <nav class="sidebar__nav" id="menu-navegacion"></nav>
+      <div class="sidebar__footer">
+        <div id="sidebar-usuario"></div>
+        <button class="btn btn--ghost btn--sm btn--block mt-2" id="btn-perfil" type="button"><i class="bi bi-person-circle"></i> Mi cuenta</button>
+      </div>
+    </aside>
+    <div class="sidebar__scrim" id="scrim"></div>
+
+    <div class="main">
+      <header class="topbar no-print">
+        <button class="icon-btn" id="abrir-menu" type="button" aria-label="Abrir menú"><i class="bi bi-list"></i></button>
+        <div>
+          <h1 class="topbar__title" id="topbar-titulo">Panel principal</h1>
+          <p class="topbar__subtitle" id="topbar-subtitulo">Resumen del inventario</p>
+        </div>
+        <div class="topbar__actions">
+          <span class="topbar__date" id="topbar-fecha"></span>
+          <button class="icon-btn" id="btn-escanear" type="button" title="Escanear QR" aria-label="Escanear QR"><i class="bi bi-qr-code-scan"></i></button>
+          <button class="icon-btn" id="btn-alertas" type="button" title="Alertas" aria-label="Alertas"><i class="bi bi-bell"></i><span class="alert-dot" id="contador-alertas" style="display:none"></span></button>
+          <button class="icon-btn" id="btn-salir" type="button" title="Cerrar sesión" aria-label="Cerrar sesión"><i class="bi bi-box-arrow-right"></i></button>
+        </div>
+      </header>
+      <main class="content"><div id="vista-contenido"></div></main>
+    </div>
+  </div>
+
+  <!-- Vista pública al abrir un QR desde el celular -->
+  <div id="vista-publica" style="display:none"></div>
+
+  <div id="modal-root"></div>
+  <div id="toast-stack" class="toast-stack"></div>
+  <div id="scanner-root"></div>
+
+  <script src="/vendor/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/chart.umd.js"></script>
+  <script src="/vendor/sweetalert2.min.js"></script>
+  <script src="/vendor/html5-qrcode.min.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/charts.js"></script>
+  <script src="/js/views.js"></script>
+  <script src="/js/qr.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
