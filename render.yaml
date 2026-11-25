@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: topico-smart-qr
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/public/salud
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: topico-qr-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production
+
+databases:
+  - name: topico-qr-db
+    plan: free
+    databaseName: topico_smart_qr
+    user: topico

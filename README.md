@@ -58,6 +58,16 @@ Para reinicializar el esquema y los datos base: `npm run db:init`.
 - **Reportes:** inventario general, stock bajo, vencimientos y entradas/salidas; exportación PDF y Excel.
 - **Usuarios:** administrador y personal, permisos por rol, contraseñas cifradas con bcrypt y JWT.
 
+## Despliegue en Render (recomendado si Netlify no está disponible)
+
+El repo incluye `render.yaml` (Blueprint). Crea una cuenta en https://render.com → **New + → Blueprint** →
+conecta GitHub → selecciona `Jeshu23/topico-smart-qr` → **Apply**. Render crea automáticamente el
+servicio Node y la base PostgreSQL, y configura `DATABASE_URL` y `JWT_SECRET`.
+La URL pública será `https://topico-smart-qr.onrender.com`.
+
+> El plan gratuito apaga el servicio tras ~15 min de inactividad; la primera visita puede tardar
+> unos segundos en despertar. Para una demo continua usa el plan Starter.
+
 ## Despliegue en Netlify (con PostgreSQL en la nube)
 
 El repositorio ya incluye `netlify.toml` y `netlify/functions/api.js`, que envuelven la API Express
