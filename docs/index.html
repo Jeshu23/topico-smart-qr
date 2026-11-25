@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TÓPICO SMART QR — Gestión inteligente de medicamentos</title>
+  <meta name="description" content="Sistema web Full Stack para el inventario de medicamentos de un tópico institucional: QR, FEFO, alertas y reportes.">
+  <style>
+    :root{--azul:#123c5e;--celeste:#78a9d4;--claro:#eaf5fc;--fondo:#f7fafd;--texto:#34445a;--muted:#5f7290}
+    *{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Inter,system-ui,sans-serif;background:var(--fondo);color:var(--texto);line-height:1.6}
+    header{background:linear-gradient(135deg,#0e2a47,#17507e 55%,#78a9d4);color:#fff;padding:48px 20px 90px;text-align:center;position:relative;overflow:hidden}
+    header::after{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:rgba(255,255,255,.08);right:-120px;top:-200px}
+    .logo{width:64px;height:64px;border-radius:18px;background:rgba(255,255,255,.16);display:grid;place-items:center;margin:0 auto 16px;font-size:32px;border:1px solid rgba(255,255,255,.3)}
+    h1{font-size:clamp(28px,5vw,44px);margin:0;letter-spacing:.5px}h2{color:var(--azul);font-size:24px}
+    .tagline{opacity:.9;max-width:620px;margin:12px auto 0}
+    .pill{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12px;margin-top:18px}
+    main{max-width:1080px;margin:-60px auto 40px;padding:0 20px;position:relative}
+    .card{background:#fff;border:1px solid #dcebfa;border-radius:20px;box-shadow:0 12px 36px rgba(18,60,94,.10);padding:24px;margin-bottom:24px}
+    img{width:100%;border-radius:12px;border:1px solid #dcebfa}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+    .feature{background:#fff;border:1px solid #dcebfa;border-radius:16px;padding:18px}
+    .feature i{font-style:normal;font-size:22px;color:var(--azul)}
+    .feature h3{margin:8px 0 4px;font-size:16px;color:var(--azul)}
+    .feature p{margin:0;font-size:13.5px;color:var(--muted)}
+    code,pre{background:#0e2a47;color:#eaf5fc;border-radius:10px;padding:12px 14px;display:block;overflow:auto;font-size:13px}
+    table{width:100%;border-collapse:collapse;font-size:14px}td,th{text-align:left;padding:10px;border-bottom:1px solid #e6eff9}th{color:var(--azul)}
+    .btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(120deg,var(--celeste),var(--azul));color:#fff;text-decoration:none;padding:12px 20px;border-radius:12px;font-weight:600;margin:6px 6px 0 0}
+    .btn.sec{background:#e6eff9;color:var(--azul)}
+    .nota{background:var(--claro);border-left:4px solid var(--celeste);padding:12px 16px;border-radius:10px;font-size:13.5px;color:var(--muted)}
+    footer{text-align:center;color:var(--muted);font-size:13px;padding:20px}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">▦</div>
+    <h1>TÓPICO SMART QR</h1>
+    <p class="tagline">Gestión inteligente del inventario de medicamentos de un tópico institucional.</p>
+    <span class="pill">Node.js · Express · PostgreSQL · QR · FEFO · Alertas</span>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Panel principal</h2>
+      <p style="color:var(--muted);margin-top:0">Estadísticas reales, gráficas, últimos movimientos y alertas automáticas.</p>
+      <img src="dashboard.png" alt="Captura del panel principal de TÓPICO SMART QR">
+    </section>
+
+    <section class="grid">
+      <div class="feature"><i>◈</i><h3>Inventario y lotes</h3><p>Alta, edición y consulta de medicamentos con múltiples lotes, vencimiento, stock mínimo y ubicación.</p></div>
+      <div class="feature"><i>▦</i><h3>Códigos QR</h3><p>QR único por lote, descarga, impresión y lectura con cámara o consulta manual.</p></div>
+      <div class="feature"><i>⇄</i><h3>Salidas FEFO</h3><p>Primero sale el lote que vence antes. Bloqueo de vencidos y prevención de cantidades negativas.</p></div>
+      <div class="feature"><i>⚠</i><h3>Alertas inteligentes</h3><p>Stock mínimo y vencimientos a 90, 30 y 7 días, con historial conservado.</p></div>
+      <div class="feature"><i>▤</i><h3>Reportes</h3><p>Inventario, stock bajo, vencimientos y movimientos; exportación PDF y Excel.</p></div>
+      <div class="feature"><i>◉</i><h3>Seguridad</h3><p>JWT, contraseñas cifradas con bcrypt y permisos por rol: administrador y personal.</p></div>
+    </section>
+
+    <section class="card" style="margin-top:24px">
+      <h2>Acceso de prueba</h2>
+      <table>
+        <tr><th>Usuario</th><th>Contraseña</th><th>Rol</th></tr>
+        <tr><td><code>admin</code></td><td><code>Admin123!</code></td><td>Administrador</td></tr>
+        <tr><td><code>personal</code></td><td><code>Personal123!</code></td><td>Personal del tópico</td></tr>
+      </table>
+      <p class="nota">Esta página es una presentación estática. Para usar el sistema completo, ejecuta el proyecto localmente o despliégalo en Render desde el repositorio.</p>
+    </section>
+
+    <section class="card">
+      <h2>Ejecutar el sistema</h2>
+      <pre>npm install
+npm start
+# Abrir: http://127.0.0.1:3100</pre>
+      <a class="btn" href="https://github.com/Jeshu23/topico-smart-qr">Ver código en GitHub</a>
+      <a class="btn sec" href="https://render.com/deploy?repo=https://github.com/Jeshu23/topico-smart-qr">Desplegar en Render</a>
+    </section>
+  </main>
+
+  <footer>TÓPICO SMART QR · Proyecto Full Stack con datos reales · 2026</footer>
+</body>
+</html>
