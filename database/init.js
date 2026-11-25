@@ -96,6 +96,7 @@ CREATE INDEX IF NOT EXISTS idx_alertas_resuelta ON alertas (resuelta, created_at
 `;
 
 async function crearBaseDatos() {
+  if (process.env.DATABASE_URL) return; // La BD administrada ya existe (Neon/Supabase)
   const admin = new Client({
     host: process.env.DB_HOST || '127.0.0.1',
     port: Number(process.env.DB_PORT || 55432),
@@ -228,6 +229,9 @@ async function sembrarUsuarios(client) {
 /** Si el clúster propio no está activo (por ejemplo tras reiniciar la PC), lo inicia. */
 async function asegurarPostgres() {
   try { await query('SELECT 1'); return; } catch (_) { /* se intenta iniciar */ }
+  if (process.env.DATABASE_URL) {
+    throw new Error('No se pudo conectar a la base de datos indicada en DATABASE_URL.');
+  }
   const bin = process.env.PG_BIN || 'C:\\Program Files\\PostgreSQL\\15\\bin';
   const datos = path.resolve(__dirname, '..', process.env.PG_DATA || 'data/pgdata');
   const puerto = Number(process.env.DB_PORT || 55432);

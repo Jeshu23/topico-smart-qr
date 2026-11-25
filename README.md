@@ -58,11 +58,45 @@ Para reinicializar el esquema y los datos base: `npm run db:init`.
 - **Reportes:** inventario general, stock bajo, vencimientos y entradas/salidas; exportación PDF y Excel.
 - **Usuarios:** administrador y personal, permisos por rol, contraseñas cifradas con bcrypt y JWT.
 
+## Despliegue en Netlify (con PostgreSQL en la nube)
+
+El repositorio ya incluye `netlify.toml` y `netlify/functions/api.js`, que envuelven la API Express
+como función serverless. Netlify sirve `public/` como sitio estático y redirige `/api/*` a la función.
+
+**Paso 1 — Base de datos:** crea un proyecto PostgreSQL gratuito en https://neon.tech (o Supabase)
+y copia la cadena de conexión, por ejemplo:
+`postgresql://usuario:contraseña@ep-xxx.region.aws.neon.tech/neondb?sslmode=require`
+
+**Paso 2 — Desde tu repositorio de GitHub:**
+1. Entra a https://app.netlify.com → **Add new site** → **Import an existing project**.
+2. Elige **Deploy with GitHub** y autoriza Netlify; selecciona `Jeshu23/topico-smart-qr`.
+3. En *Build settings* déjalo así:
+   - Base directory: *(vacío)*
+   - Build command: *(vacío)*
+   - Publish directory: `public`
+   - Functions directory: `netlify/functions` (ya viene en `netlify.toml`)
+4. Antes de publicar, entra en **Site configuration → Environment variables** y agrega:
+
+   | Variable | Valor |
+   |---|---|
+   | `DATABASE_URL` | La cadena de conexión de Neon/Supabase |
+   | `JWT_SECRET` | Una frase larga y aleatoria (ej. `cambia-esto-por-una-clave-muy-segura-2026`) |
+
+5. Presiona **Deploy site**. La URL pública queda en el panel de Netlify.
+
+**Usuarios iniciales** se crean automáticamente la primera vez: `admin / Admin123!` y
+`personal / Personal123!`. Cámbialas después de ingresar.
+
+> Nota: la API usa `DATABASE_URL` con SSL cuando la variable existe; si no existe, usa el clúster
+> PostgreSQL local. Las alertas se evalúan en el arranque de la función y tras cada movimiento.
+> En Netlify el plan gratuito tiene límites de invocaciones; suficiente para una demostración.
+
 ## Pruebas automatizadas ejecutadas
 
 ```powershell
 npm test                 # 31 verificaciones de API, base de datos, QR, FEFO, alertas y reportes
 node tests/browser.test.js  # 23 verificaciones en Chrome headless (páginas, botones y formularios)
+npm run test:netlify        # 4 verificaciones de la Netlify Function con BD local
 ```
 
 Los datos creados por las pruebas se eliminan automáticamente al finalizar.

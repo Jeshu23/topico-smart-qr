@@ -1,4 +1,4 @@
-/* TÓPICO SMART QR — Servidor Express + PostgreSQL */
+/* TÓPICO SMART QR — Servidor Express + PostgreSQL (local y Netlify Functions) */
 require('dotenv').config();
 const path = require('path');
 const express = require('express');
@@ -8,40 +8,45 @@ const { initDB } = require('./database/init');
 const { errorHandler } = require('./src/middleware');
 const { evaluarAlertas } = require('./src/services/alertas');
 
-const app = express();
 const RAIZ = __dirname;
 
-app.disable('x-powered-by');
-app.use(helmet({ contentSecurityPolicy: false, crossOriginResourcePolicy: false }));
-app.use(express.json({ limit: '1mb' }));
-app.use(express.urlencoded({ extended: true }));
+function crearApp() {
+  const app = express();
+  app.disable('x-powered-by');
+  app.set('trust proxy', true); // Netlify termina TLS: req.protocol debe ser https
+  app.use(helmet({ contentSecurityPolicy: false, crossOriginResourcePolicy: false }));
+  app.use(express.json({ limit: '1mb' }));
+  app.use(express.urlencoded({ extended: true }));
 
-/* Archivos estáticos: se reutilizan los estilos y recursos existentes del proyecto */
-app.use('/css', express.static(path.join(RAIZ, 'css'), { fallthrough: true }));
-app.use('/assets', express.static(path.join(RAIZ, 'assets'), { fallthrough: true }));
-app.use('/js', express.static(path.join(RAIZ, 'public', 'js'), { fallthrough: true }));
-app.use('/vendor', express.static(path.join(RAIZ, 'public', 'vendor'), { fallthrough: true }));
+  /* Archivos estáticos (en local; en Netlify los sirve directamente el CDN) */
+  app.use('/css', express.static(path.join(RAIZ, 'css'), { fallthrough: true }));
+  app.use('/assets', express.static(path.join(RAIZ, 'assets'), { fallthrough: true }));
+  app.use('/js', express.static(path.join(RAIZ, 'public', 'js'), { fallthrough: true }));
+  app.use('/vendor', express.static(path.join(RAIZ, 'public', 'vendor'), { fallthrough: true }));
 
-/* API */
-app.use('/api/public', require('./src/routes/public'));
-app.use('/api/auth', require('./src/routes/auth'));
-app.use('/api/catalogo', require('./src/routes/catalogo'));
-app.use('/api/inventario', require('./src/routes/inventario'));
-app.use('/api/alertas', require('./src/routes/alertas'));
-app.use('/api/usuarios', require('./src/routes/usuarios'));
-app.use('/api/reportes', require('./src/routes/reportes'));
+  /* API */
+  app.use('/api/public', require('./src/routes/public'));
+  app.use('/api/auth', require('./src/routes/auth'));
+  app.use('/api/catalogo', require('./src/routes/catalogo'));
+  app.use('/api/inventario', require('./src/routes/inventario'));
+  app.use('/api/alertas', require('./src/routes/alertas'));
+  app.use('/api/usuarios', require('./src/routes/usuarios'));
+  app.use('/api/reportes', require('./src/routes/reportes'));
 
-/* Aplicación (SPA) */
-app.use(express.static(path.join(RAIZ, 'public'), { index: false }));
-app.get('*', (req, res, next) => {
-  if (req.path.startsWith('/api/')) return res.status(404).json({ error: 'Ruta de API no encontrada.' });
-  res.sendFile(path.join(RAIZ, 'public', 'index.html'), (err) => (err ? next(err) : undefined));
-});
+  /* Aplicación (SPA) */
+  app.use(express.static(path.join(RAIZ, 'public'), { index: false }));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api/')) return res.status(404).json({ error: 'Ruta de API no encontrada.' });
+    res.sendFile(path.join(RAIZ, 'public', 'index.html'), (err) => (err ? next(err) : undefined));
+  });
 
-app.use(errorHandler);
+  app.use(errorHandler);
+  return app;
+}
 
 async function arrancar() {
   await initDB();
+  const app = crearApp();
   const puerto = Number(process.env.PORT || 3000);
   const servidor = app.listen(puerto, '0.0.0.0', () => {
     console.log(`\n  TÓPICO SMART QR listo`);
@@ -61,9 +66,11 @@ async function arrancar() {
   process.on('SIGTERM', cerrar);
 }
 
-arrancar().catch((error) => {
-  console.error('No fue posible iniciar el servidor:', error);
-  process.exit(1);
-});
+if (require.main === module) {
+  arrancar().catch((error) => {
+    console.error('No fue posible iniciar el servidor:', error);
+    process.exit(1);
+  });
+}
 
-module.exports = app;
+module.exports = { crearApp, arrancar };

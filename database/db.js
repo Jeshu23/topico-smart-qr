@@ -2,16 +2,27 @@
 require('dotenv').config();
 const { Pool } = require('pg');
 
-const pool = new Pool({
-  host: process.env.DB_HOST || '127.0.0.1',
-  port: Number(process.env.DB_PORT || 55432),
-  database: process.env.DB_NAME || 'topico_smart_qr',
-  user: process.env.DB_USER || 'topico',
-  password: process.env.DB_PASSWORD || '',
+const usaURL = Boolean(process.env.DATABASE_URL);
+const configuracion = {
   max: 10,
   idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 5000
-});
+  connectionTimeoutMillis: 8000
+};
+
+if (usaURL) {
+  // PostgreSQL administrado (Neon / Supabase / Render): la URL ya incluye usuario,
+  // contraseña, host y base de datos. SSL es obligatorio en estos servicios.
+  configuracion.connectionString = process.env.DATABASE_URL;
+  configuracion.ssl = { rejectUnauthorized: false };
+} else {
+  configuracion.host = process.env.DB_HOST || '127.0.0.1';
+  configuracion.port = Number(process.env.DB_PORT || 55432);
+  configuracion.database = process.env.DB_NAME || 'topico_smart_qr';
+  configuracion.user = process.env.DB_USER || 'topico';
+  configuracion.password = process.env.DB_PASSWORD || '';
+}
+
+const pool = new Pool(configuracion);
 
 pool.on('error', (err) => console.error('[DB] Error inesperado del pool:', err.message));
 

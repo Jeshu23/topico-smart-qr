@@ -1,0 +1,14 @@
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+# La SPA se sirve desde /public; las peticiones /api/* se envían a la función Express.
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
